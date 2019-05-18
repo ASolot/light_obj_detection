@@ -1,3 +1,6 @@
 [submodule "SolotNet/models/backbones/DCNv2"]
 	path = SolotNet/models/backbones/DCNv2
 	url = https://github.com/CharlesShang/DCNv2.git
+[submodule "SolotNet/external/CenterNet"]
+	path = SolotNet/external/CenterNet
+	url = https://github.com/xingyizhou/CenterNet
