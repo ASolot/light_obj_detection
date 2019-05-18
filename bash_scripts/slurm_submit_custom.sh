@@ -52,16 +52,30 @@ module purge                               # Removes all modules still loaded
 module load rhel7/default-gpu              # REQUIRED - loads the basic environment
 
 #! Insert additional module load commands after this line if needed:
-. ./module_loader.sh
+
+# conda environment
+module load miniconda3-4.5.4-gcc-5.4.0-hivczbz
+
+# # CUDA 10.0 & cudnn
+# module load cuda/10.0 intel/mkl/2017.4 cudnn/7.5_cuda-10.0
+
+module unload cuda/8.0
+# for unknown reasons, tensorboard won't work 
+module load cuda/10.0
+
+# CUDA 9.0 & cudnn 
+module load cuda/9.0 intel/mkl/2017.4 
+module load cudnn/7.3_cuda-9.0
+
 
 #! Activate the virtual environment specific for the task
 source activate thesisenvcl
 
 #! Full path to application executable: 
-application=""
+application="sh"
 
 #! Run options for the application:
-options=""
+options="$HOME/MThesis/repos/mine/light_obj_detection/tests/cdet_visdrone_dla_1x.sh"
 
 #! Work directory (i.e. where the job will run):
 workdir="$SLURM_SUBMIT_DIR"  # The value of SLURM_SUBMIT_DIR sets workdir to the directory
