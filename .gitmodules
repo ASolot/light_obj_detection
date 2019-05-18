@@ -1,0 +1,3 @@
+[submodule "SolotNet/models/backbones/DCNv2"]
+	path = SolotNet/models/backbones/DCNv2
+	url = https://github.com/CharlesShang/DCNv2.git
