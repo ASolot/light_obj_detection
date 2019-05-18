@@ -10,7 +10,7 @@ import torch
 
 from external.nms import soft_nms
 from models.decode import ctdet_decode
-from models.utils import flip_tensor
+from models.backbone_utils import flip_tensor
 from utils.image import get_affine_transform
 from utils.post_process import ctdet_post_process
 from utils.debugger import Debugger
@@ -34,7 +34,7 @@ class YoloV3Detector(BaseDetector):
       torch.cuda.synchronize()
       forward_time = time.time()
       # dets = ctdet_decode(hm, wh, reg=reg, K=self.opt.K)
-      dets = 
+      # dets = 
       
     if return_time:
       return output, dets, forward_time

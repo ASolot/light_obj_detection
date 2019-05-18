@@ -1,26 +1,38 @@
-import glob
-import random
-import os
+# import glob
+# import random
+# import os
+# import numpy as np
+
+# import torch
+
+# import torch.utils.data as data
+# from PIL import Image
+# import torchvision.transforms as transforms
+
+# import matplotlib.pyplot as plt
+# import matplotlib.patches as patches
+
+# from skimage.transform import resize
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
+import pycocotools.coco as coco
+from pycocotools.cocoeval import COCOeval
 import numpy as np
+import json
+import os
 
-import torch
+import torch.utils.data as data
 
-from torch.utils.data as data
-from PIL import Image
-import torchvision.transforms as transforms
-
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-
-from skimage.transform import resize
-
-import sys
+# import sys
 
 VISDRONE_CLASSES = ('Ignored Regions', 'Pedestrian', 'People', 'Bicycle', 
                     'Car', 'Van', 'Truck', 'Tricycle', 'Awning-tricycle', 
                     'Bus', 'Motorbike', 'Other')
 
-class Visdrone(data.Dataset):
+class VisDrone(data.Dataset):
   num_classes = 11
   default_resolution = [512, 512]
   mean = np.array([0.40789654, 0.44719302, 0.47026115],
@@ -29,10 +41,10 @@ class Visdrone(data.Dataset):
                    dtype=np.float32).reshape(1, 1, 3)
 
   def __init__(self, opt, split):
-    super(Visdrone, self).__init__()
+    super(VisDrone, self).__init__()
 
     self.data_dir = os.path.join(opt.data_dir, 'VISDRONE')
-    self.data_dir = os.path.join(self.data_dir, 'Images')
+    self.data_dir = os.path.join(self.data_dir, 'Images-512x512')
     
     if split == 'test':
       self.data_dir = os.path.join(self.data_dir, 'VisDrone2018-DET-val')

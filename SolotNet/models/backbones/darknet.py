@@ -259,6 +259,6 @@ def get_darknet(num_layers, heads, head_conv):
 
     # TODO: integrate heads, layers, and head_convs 
 
-    model = YOLOv3( , )
+    model = YOLOv3()
 
     return model

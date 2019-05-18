@@ -15,7 +15,7 @@ class opts(object):
                              help='ctdet | yolo')
     self.parser.add_argument('--dataset', default='visdrone',
                              help='coco | visdrone')
-    self.parser.add_argument('--arch', default='dlav0', help='')
+    # self.parser.add_argument('--arch', default='dlav0', help='')
     self.parser.add_argument('--exp_id', default='default')
     self.parser.add_argument('--test', action='store_true')
     self.parser.add_argument('--debug', type=int, default=0,
@@ -125,7 +125,7 @@ class opts(object):
     self.parser.add_argument('--keep_res', action='store_true',
                              help='keep the original resolution'
                                   ' during validation.')
-    self,parser.add_argument('--test_power', action='store_true',
+    self.parser.add_argument('--test_power', action='store_true',
                              help='test speed and efficiency')
     
 
@@ -205,9 +205,9 @@ class opts(object):
     opt.fix_res = not opt.keep_res
     print('Fix size testing.' if opt.fix_res else 'Keep resolution testing.')
     opt.reg_offset = not opt.not_reg_offset
-    opt.reg_bbox = not opt.not_reg_bbox
-    opt.hm_hp = not opt.not_hm_hp
-    opt.reg_hp_offset = (not opt.not_reg_hp_offset) and opt.hm_hp
+    # opt.reg_bbox = not opt.not_reg_bbox
+    # opt.hm_hp = not opt.not_hm_hp
+    # opt.reg_hp_offset = (not opt.not_reg_hp_offset) and opt.hm_hp
 
     if opt.head_conv == -1: # init default head_conv
       opt.head_conv = 256 if 'dla' in opt.arch else 64
@@ -234,7 +234,7 @@ class opts(object):
       opt.chunk_sizes.append(slave_chunk_size)
     print('training chunk_sizes:', opt.chunk_sizes)
 
-    opt.root_dir = os.path.join(os.path.dirname(__file__), '..', '..')
+    opt.root_dir = os.path.join(os.path.dirname(__file__), '..')
     opt.data_dir = os.path.join(opt.root_dir, 'data')
     opt.exp_dir = os.path.join(opt.root_dir, 'exp', opt.task)
     opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
@@ -311,10 +311,10 @@ class opts(object):
     default_dataset_info = {
       'ctdet': {'default_resolution': [512, 512], 'num_classes': 80, 
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
-                'dataset': 'coco'},
+                'dataset': 'visdrone'},
       'yolo': {'default_resolution': [512, 512], 'num_classes': 80, 
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
-                'dataset': 'coco'},
+                'dataset': 'visdrone'},
       # 'exdet': {'default_resolution': [512, 512], 'num_classes': 80, 
       #           'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
       #           'dataset': 'coco'},

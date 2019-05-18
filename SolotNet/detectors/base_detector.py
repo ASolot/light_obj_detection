@@ -10,7 +10,7 @@ from progress.bar import Bar
 import time
 import torch
 
-from models.model import create_model, load_model
+from models.model_factory import create_model, load_model
 from utils.image import get_affine_transform
 from utils.debugger import Debugger
 

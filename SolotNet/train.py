@@ -9,8 +9,8 @@ import os
 import torch
 import torch.utils.data
 from config import opts
-from backbones.model_factory import create_model, load_model, save_model
-from backbones.data_parallel import DataParallel
+from models.model_factory import create_model, load_model, save_model
+from models.data_parallel import DataParallel
 from logger import Logger
 from dataset.dataset_factory import get_dataset
 from trainers.train_factory import train_factory

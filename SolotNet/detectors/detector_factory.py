@@ -3,7 +3,7 @@ from __future__ import division
 from __future__ import print_function
 
 from .ctdet import CtdetDetector
-from .yolov3 import YoloV3Detector
+from .yolodet import YoloV3Detector
 
 detector_factory = {
   'ctdet': CtdetDetector,
