@@ -15,6 +15,7 @@ class opts(object):
                              help='ctdet | yolo')
     self.parser.add_argument('--dataset', default='visdrone',
                              help='coco | visdrone')
+    self.parser.add_argument('--arch', default='dlav0', help='')
     self.parser.add_argument('--exp_id', default='default')
     self.parser.add_argument('--test', action='store_true')
     self.parser.add_argument('--debug', type=int, default=0,
