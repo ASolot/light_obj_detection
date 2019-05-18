@@ -1,3 +1,4 @@
+#!/bin/bash
 # script for loading modules and environment 
 # configuration on the wilkies2 cluster
 
