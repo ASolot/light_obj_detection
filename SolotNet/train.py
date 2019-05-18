@@ -8,7 +8,7 @@ import os
 
 import torch
 import torch.utils.data
-from opts import opts
+from config import opts
 from backbones.model_factory import create_model, load_model, save_model
 from backbones.data_parallel import DataParallel
 from logger import Logger

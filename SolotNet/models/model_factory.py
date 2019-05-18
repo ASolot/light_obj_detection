@@ -7,14 +7,14 @@ import torch
 import torch.nn as nn
 import os
 
-from .models.msra_resnet import get_pose_net
-from .models.dlav0 import get_pose_net as get_dlav0
-from .models.pose_dla_dcn import get_pose_net as get_dla_dcn
-from .models.resnet_dcn import get_pose_net as get_pose_net_dcn
-from .models.large_hourglass import get_large_hourglass_net
-from .models.darknet import get_darknet
-from .models.lowdarknet import get_darknet_low_power
-from .models.espnetv2 import get_espv2_net
+from .backbones.msra_resnet import get_pose_net
+from .backbones.dlav0 import get_pose_net as get_dlav0
+from .backbones.pose_dla_dcn import get_pose_net as get_dla_dcn
+from .backbones.resnet_dcn import get_pose_net as get_pose_net_dcn
+from .backbones.large_hourglass import get_large_hourglass_net
+from .backbones.darknet import get_darknet
+from .backbones.darknet_lp import get_darknet_low_power
+from .backbones.espnetv2 import get_espv2_net
 
 _model_factory = {
   'res': get_pose_net, # default Resnet with deconv

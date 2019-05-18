@@ -32,7 +32,7 @@ class Visdrone(data.Dataset):
     super(Visdrone, self).__init__()
 
     self.data_dir = os.path.join(opt.data_dir, 'VISDRONE')
-    self.data_dir = os.path.join(self.data_dir, 'Images-512x512')
+    self.data_dir = os.path.join(self.data_dir, 'Images')
     
     if split == 'test':
       self.data_dir = os.path.join(self.data_dir, 'VisDrone2018-DET-val')
