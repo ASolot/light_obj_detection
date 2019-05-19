@@ -68,10 +68,8 @@ class VisDrone(data.Dataset):
     'Car', 'Van', 'Truck', 'Tricycle', 'Awning-tricycle', 
     'Bus', 'Motorbike', 'Other']
 
-    self._valid_ids = np.arange(1, 12, dtype=np.int32)
-    # self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
-
-    self.cat_ids = {i: v for i, v in enumerate(self._valid_ids)}
+    self._valid_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
 
     self.voc_color = [(v // 32 * 64 + 64, (v // 8) % 4 * 64, v % 8 * 32) \
                       for v in range(1, self.num_classes + 1)]
