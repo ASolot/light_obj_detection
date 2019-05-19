@@ -84,7 +84,9 @@ class VisDrone(data.Dataset):
   def convert_eval_format(self, all_bboxes):
     # import pdb; pdb.set_trace()
     detections = []
+    print(all_bboxes)
     for image_id in all_bboxes:
+      print (image_id)
       for cls_ind in all_bboxes[image_id]:
         category_id = self._valid_ids[cls_ind - 1]
         for bbox in all_bboxes[image_id][cls_ind]:
@@ -113,9 +115,6 @@ class VisDrone(data.Dataset):
                 open('{}/results.json'.format(save_dir), 'w'))
   
   def run_eval(self, results, save_dir):
-    # result_json = os.path.join(save_dir, "results.json")
-    # detections  = self.convert_eval_format(results)
-    # json.dump(detections, open(result_json, "w"))
     self.save_results(results, save_dir)
     coco_dets = self.coco.loadRes('{}/results.json'.format(save_dir))
     coco_eval = COCOeval(self.coco, coco_dets, "bbox")
