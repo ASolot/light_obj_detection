@@ -197,19 +197,5 @@ dependencies:
   - termcolor=1.1.0=py36_0
   - pytorch=1.0.1=py3.6_cuda9.0.176_cudnn7.4.2_2
   - torchvision=0.2.2=py_3
-  - pip:
-    - dask==1.2.2
-    - dcn==1.0
-    - dcnv2==0.1
-    - flopth==0.0.1
-    - mock==2.0.0
-    - msgpack==0.6.1
-    - opencv-contrib-python==4.1.0.25
-    - pathlib==1.0.1
-    - pbr==5.1.3
-    - pillow-simd==5.3.0.post1
-    - progress==1.5
-    - tensorflow-estimator==1.13.0
-    - torch==1.0.1.post2
 prefix: /home/alex/MThesis/repos/thesisenv
 
