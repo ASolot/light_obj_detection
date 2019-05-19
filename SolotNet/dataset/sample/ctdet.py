@@ -98,9 +98,9 @@ class CTDetDataset(data.Dataset):
 
     gt_det = []
     for k in range(num_objs):
+      ann = anns[k]
       if(ann['category_id'] == 0):
         continue
-      ann = anns[k]
       bbox = self._coco_box_to_bbox(ann['bbox'])
       cls_id = int(self.cat_ids[ann['category_id']])
       if flipped:
