@@ -1,19 +1,3 @@
-# import glob
-# import random
-# import os
-# import numpy as np
-
-# import torch
-
-# import torch.utils.data as data
-# from PIL import Image
-# import torchvision.transforms as transforms
-
-# import matplotlib.pyplot as plt
-# import matplotlib.patches as patches
-
-# from skimage.transform import resize
-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function

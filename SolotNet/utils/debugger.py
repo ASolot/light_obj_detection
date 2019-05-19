@@ -22,46 +22,12 @@ class Debugger(object):
       self.colors = self.colors.reshape(-1)[::-1].reshape(len(colors), 1, 1, 3)
       self.colors = np.clip(self.colors, 0., 0.6 * 255).astype(np.uint8)
     self.dim_scale = 1
-    if dataset == 'coco_hp':
-      self.names = ['p']
-      self.num_class = 1
-      self.num_joints = 17
-      self.edges = [[0, 1], [0, 2], [1, 3], [2, 4], 
-                    [3, 5], [4, 6], [5, 6], 
-                    [5, 7], [7, 9], [6, 8], [8, 10], 
-                    [5, 11], [6, 12], [11, 12], 
-                    [11, 13], [13, 15], [12, 14], [14, 16]]
-      self.ec = [(255, 0, 0), (0, 0, 255), (255, 0, 0), (0, 0, 255), 
-                 (255, 0, 0), (0, 0, 255), (255, 0, 255),
-                 (255, 0, 0), (255, 0, 0), (0, 0, 255), (0, 0, 255),
-                 (255, 0, 0), (0, 0, 255), (255, 0, 255),
-                 (255, 0, 0), (255, 0, 0), (0, 0, 255), (0, 0, 255)]
-      self.colors_hp = [(255, 0, 255), (255, 0, 0), (0, 0, 255), 
-        (255, 0, 0), (0, 0, 255), (255, 0, 0), (0, 0, 255),
-        (255, 0, 0), (0, 0, 255), (255, 0, 0), (0, 0, 255),
-        (255, 0, 0), (0, 0, 255), (255, 0, 0), (0, 0, 255),
-        (255, 0, 0), (0, 0, 255)]
-    elif num_classes == 80 or dataset == 'coco':
+
+    if num_classes == 80 or dataset == 'coco':
       self.names = coco_class_name
-    elif num_classes == 20 or dataset == 'pascal':
-      self.names = pascal_class_name
-    elif dataset == 'gta':
-      self.names = gta_class_name
-      self.focal_length = 935.3074360871937
-      self.W = 1920
-      self.H = 1080
-      self.dim_scale = 3
-    elif dataset == 'viper':
-      self.names = gta_class_name
-      self.focal_length = 1158
-      self.W = 1920
-      self.H = 1080
-      self.dim_scale = 3
-    elif num_classes == 3 or dataset == 'kitti':
-      self.names = kitti_class_name
-      self.focal_length = 721.5377
-      self.W = 1242
-      self.H = 375
+    elif num_classes == 11 or dataset == 'visdrone': 
+      self.names = visdrone_class_name
+    
     num_classes = len(self.names)
     self.down_ratio=down_ratio
     # for bird view
@@ -454,6 +420,12 @@ coco_class_name = [
      'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave',
      'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
      'scissors', 'teddy bear', 'hair drier', 'toothbrush'
+]
+
+visdrone_class_name = [
+  'Pedestrian', 'People', 'Bicycle', 
+  'Car', 'Van', 'Truck', 'Tricycle', 'Awning-tricycle', 
+  'Bus', 'Motorbike', 'Other'
 ]
 
 color_list = np.array(
