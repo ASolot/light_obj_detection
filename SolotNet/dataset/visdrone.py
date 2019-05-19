@@ -68,7 +68,7 @@ class VisDrone(data.Dataset):
     'Car', 'Van', 'Truck', 'Tricycle', 'Awning-tricycle', 
     'Bus', 'Motorbike', 'Other']
 
-    self._valid_ids = np.arange(1, 12, dtype=np.int32)
+    self._valid_ids = np.arange(0, 12, dtype=np.int32)
     self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
 
     # self.cat_ids = {v: i for i, v in enumerate(self._valid_ids)}
