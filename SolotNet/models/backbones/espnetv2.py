@@ -321,7 +321,7 @@ class EESPNet(nn.Module):
     '''
 
     # def __init__(self, classes=1000, s=1):
-    def __init__(self, base_name, heads, pretrained, down_ratio, final_kernel,
+    def __init__(self, heads, pretrained, down_ratio, final_kernel,
                  last_level, head_conv, out_channel=0):
 
         super().__init__()
