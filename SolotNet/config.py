@@ -107,6 +107,8 @@ class opts(object):
     self.parser.add_argument('--trainval', action='store_true',
                              help='include validation in training and '
                                   'test on test set')
+    self.parser.add_argument('--export_onnx', action='store_true', 
+                             help='export the onnx model')
 
     # test
     self.parser.add_argument('--flip_test', action='store_true',
@@ -127,7 +129,7 @@ class opts(object):
                                   ' during validation.')
     self.parser.add_argument('--test_power', action='store_true',
                              help='test speed and efficiency')
-    
+
 
     # dataset
     self.parser.add_argument('--not_rand_crop', action='store_true',
@@ -309,24 +311,12 @@ class opts(object):
   # TODO: change the dataset defaults 
   def init(self, args=''):
     default_dataset_info = {
-      'ctdet': {'default_resolution': [512, 512], 'num_classes': 80, 
+      'ctdet': {'default_resolution': [512, 512], 'num_classes': 11, 
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                 'dataset': 'visdrone'},
-      'yolo': {'default_resolution': [512, 512], 'num_classes': 80, 
+      'yolo': {'default_resolution': [512, 512], 'num_classes': 11, 
                 'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
                 'dataset': 'visdrone'},
-      # 'exdet': {'default_resolution': [512, 512], 'num_classes': 80, 
-      #           'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
-      #           'dataset': 'coco'},
-      # 'multi_pose': {
-      #   'default_resolution': [512, 512], 'num_classes': 1, 
-      #   'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
-      #   'dataset': 'coco_hp', 'num_joints': 17,
-      #   'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], 
-      #                [11, 12], [13, 14], [15, 16]]},
-      # 'ddd': {'default_resolution': [384, 1280], 'num_classes': 3, 
-      #           'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
-      #           'dataset': 'kitti'},
     }
     class Struct:
       def __init__(self, entries):

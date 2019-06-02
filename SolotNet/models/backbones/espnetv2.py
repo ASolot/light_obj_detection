@@ -308,6 +308,13 @@ class DownSampler(nn.Module):
 
         return self.act(output)
 
+def fill_fc_weights(layers):
+    for m in layers.modules():
+        if isinstance(m, nn.Conv2d):
+            nn.init.normal_(m.weight, std=0.001)
+            if m.bias is not None:
+                nn.init.constant_(m.bias, 0)
+
 class EESPNet(nn.Module):
     '''
     This class defines the ESPNetv2 architecture
@@ -316,10 +323,7 @@ class EESPNet(nn.Module):
     # def __init__(self, classes=1000, s=1):
     def __init__(self, base_name, heads, pretrained, down_ratio, final_kernel,
                  last_level, head_conv, out_channel=0):
-        '''
-        :param classes: number of classes in the dataset. Default is 1000 for the ImageNet dataset
-        :param s: factor that scales the number of output feature maps
-        '''
+
         super().__init__()
         reps = [0, 3, 7, 3]  # how many times EESP blocks should be repeated at each spatial level.
         channels = 3
@@ -376,7 +380,35 @@ class EESPNet(nn.Module):
         self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
         # TODO: support other heads
-        self.classifier = nn.Linear(config[5], classes)
+        self.heads = heads
+        for head in self.heads: 
+            classes = self.heads[head]
+            if head_conv > 0:
+                fc = nn.Sequential(
+                  nn.Conv2d(channels[self.first_level], head_conv,
+                    kernel_size=3, padding=1, bias=True),
+                  nn.ReLU(inplace=True),
+                  nn.Conv2d(head_conv, classes, 
+                    kernel_size=1, stride=1, 
+                    padding=0, bias=True))
+                if 'hm' in head:
+                    fc[-1].bias.data.fill_(-2.19)
+                else:
+                    fill_fc_weights(fc)
+            else:
+                fc = nn.Conv2d(channels[self.first_level], classes, 
+                  kernel_size=1, stride=1, 
+                  padding=0, bias=True)
+                if 'hm' in head:
+                    fc.bias.data.fill_(-2.19)
+                else:
+                    fill_fc_weights(fc)
+            self.__setattr__(head, fc) 
+
+
+        # self.classifier = nn.Linear(config[5], classes)
+
+        # init weights 
         self.init_params()
 
     def init_params(self):
@@ -399,7 +431,6 @@ class EESPNet(nn.Module):
     def forward(self, input, p=0.2):
         '''
         :param input: Receives the input RGB image
-        :return: a C-dimensional vector, C=# of classes
         '''
         out_l1 = self.level1(input)  # 112
         if not self.input_reinforcement:
@@ -429,24 +460,25 @@ class EESPNet(nn.Module):
             else:
                 out_l5 = layer(out_l5)
 
-        output_g = F.adaptive_avg_pool2d(out_l5, output_size=1)
-        output_g = F.dropout(output_g, p=p, training=self.training)
-        output_1x1 = output_g.view(output_g.size(0), -1)
+        # output_g = F.adaptive_avg_pool2d(out_l5, output_size=1)
+        # output_g = F.dropout(output_g, p=p, training=self.training)
+        # output_1x1 = output_g.view(output_g.size(0), -1)
 
-        return self.classifier(output_1x1)
+        ret = {} 
+        for head in self.heads
+            ret[head] = self.__getattr__(head)(x)
+        return [ret]
 
-def get_espv2_net(num_layers, heads, head_conv):
+def get_espv2_net(num_layers, heads, head_conv=256):
 
     # input = torch.Tensor(1, 3, 224, 224).cuda()
     # model = EESPNet(classes=1000, s=1.0)
 
     # head convolution size 
-    model = EESPNet('espnet{}'.format(num_layers), heads,
+    model = EESPNet(heads,
                  pretrained=False,
-                 down_ratio=down_ratio,
                  final_kernel=1,
                  last_level=5,
                  head_conv=head_conv)
-
     
     return model

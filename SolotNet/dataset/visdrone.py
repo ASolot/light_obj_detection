@@ -18,7 +18,7 @@ VISDRONE_CLASSES = ('Ignored Regions', 'Pedestrian', 'People', 'Bicycle',
 
 class VisDrone(data.Dataset):
   num_classes = 11
-  default_resolution = [512, 512]
+  default_resolution = [1024, 1024]
   mean = np.array([0.40789654, 0.44719302, 0.47026115],
                    dtype=np.float32).reshape(1, 1, 3)
   std  = np.array([0.28863828, 0.27408164, 0.27809835],
@@ -28,7 +28,7 @@ class VisDrone(data.Dataset):
     super(VisDrone, self).__init__()
 
     self.data_dir = os.path.join(opt.data_dir, 'VISDRONE')
-    self.data_dir = os.path.join(self.data_dir, 'Images-512x512')
+    self.data_dir = os.path.join(self.data_dir, 'Images')
     
     if split == 'test':
       self.data_dir = os.path.join(self.data_dir, 'VisDrone2018-DET-val')
@@ -46,7 +46,7 @@ class VisDrone(data.Dataset):
         self.annot_dir, 
           'instances.json').format(split)
 
-    self.max_objs = 128
+    self.max_objs = 512
     self.class_name = [
     'Ignored Regions', 'Pedestrian', 'People', 'Bicycle', 
     'Car', 'Van', 'Truck', 'Tricycle', 'Awning-tricycle', 
@@ -84,9 +84,7 @@ class VisDrone(data.Dataset):
   def convert_eval_format(self, all_bboxes):
     # import pdb; pdb.set_trace()
     detections = []
-    print(all_bboxes)
     for image_id in all_bboxes:
-      print (image_id)
       for cls_ind in all_bboxes[image_id]:
         category_id = self._valid_ids[cls_ind - 1]
         for bbox in all_bboxes[image_id][cls_ind]:

@@ -16,6 +16,7 @@ try:
   from torch.utils.tensorboard import SummaryWriter
   print('Using native support for tensorboard')
 except:
+  print('Could not use tensorboard')
   USE_TENSORBOARD = False
 
 class Logger(object):
