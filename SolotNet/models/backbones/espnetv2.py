@@ -465,7 +465,7 @@ class EESPNet(nn.Module):
         # output_1x1 = output_g.view(output_g.size(0), -1)
 
         ret = {} 
-        for head in self.heads
+        for head in self.heads:
             ret[head] = self.__getattr__(head)(x)
         return [ret]
 
