@@ -10,7 +10,7 @@
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J ams288-yolov3-infer
+#SBATCH -J ams288-DCNV2-install
 #! Which project should be charged (NB Wilkes2 projects end in '-GPU'):
 #SBATCH -A MASCOLO-SL3-GPU
 #! How many whole nodes should be allocated?
@@ -22,7 +22,7 @@
 #! Note that the job submission script will enforce no more than 3 cpus per GPU.
 #SBATCH --gres=gpu:1
 #! How much wallclock time will be required?
-#SBATCH --time=02:00:00
+#SBATCH --time=00:10:00
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=FAIL
 #! Uncomment this to prevent the job from being requeued (e.g. if
@@ -71,26 +71,30 @@ module load cudnn/7.3_cuda-9.0
 #! Activate the virtual environment specific for the task
 source activate thesisenvcl
 
+cd "$HOME/MThesis/repos/mine/light_obj_detection/SolotNet/models/backbones/DCNv2"
+
+python setup.py build develop
+
 #! Full path to application executable: 
-application="$HOME/MThesis/repos/mine/light_obj_detection/SolotNet/models/backbones/DCNv2/make.sh"
+# application=""
 
-#! Run options for the application:
-options=""
+# #! Run options for the application:
+# options="build develop"
 
-#! Work directory (i.e. where the job will run):
-workdir="$SLURM_SUBMIT_DIR"  # The value of SLURM_SUBMIT_DIR sets workdir to the directory
-                             # in which sbatch is run.
+# #! Work directory (i.e. where the job will run):
+# workdir="$SLURM_SUBMIT_DIR"  # The value of SLURM_SUBMIT_DIR sets workdir to the directory
+#                              # in which sbatch is run.
 
-#! Are you using OpenMP (NB this is unrelated to OpenMPI)? If so increase this
-#! safe value to no more than 12:
-export OMP_NUM_THREADS=1
+# #! Are you using OpenMP (NB this is unrelated to OpenMPI)? If so increase this
+# #! safe value to no more than 12:
+# export OMP_NUM_THREADS=1
 
-#! Number of MPI tasks to be started by the application per node and in total (do not change):
-np=$[${numnodes}*${mpi_tasks_per_node}]
+# #! Number of MPI tasks to be started by the application per node and in total (do not change):
+# np=$[${numnodes}*${mpi_tasks_per_node}]
 
-#! Choose this for a pure shared-memory OpenMP parallel program on a single node:
-#! (OMP_NUM_THREADS threads will be created):
-CMD="$application $options"
+# #! Choose this for a pure shared-memory OpenMP parallel program on a single node:
+# #! (OMP_NUM_THREADS threads will be created):
+# CMD="$application $options"
 
 #! Choose this for a MPI code using OpenMPI:
 #CMD="mpirun -npernode $mpi_tasks_per_node -np $np $application $options"
@@ -100,26 +104,26 @@ CMD="$application $options"
 ### You should not have to change anything below this line ####
 ###############################################################
 
-cd $workdir
-echo -e "Changed directory to `pwd`.\n"
+# cd $workdir
+# echo -e "Changed directory to `pwd`.\n"
 
-JOBID=$SLURM_JOB_ID
+# JOBID=$SLURM_JOB_ID
 
-echo -e "JobID: $JOBID\n======"
-echo "Time: `date`"
-echo "Running on master node: `hostname`"
-echo "Current directory: `pwd`"
+# echo -e "JobID: $JOBID\n======"
+# echo "Time: `date`"
+# echo "Running on master node: `hostname`"
+# echo "Current directory: `pwd`"
 
-if [ "$SLURM_JOB_NODELIST" ]; then
-        #! Create a machine file:
-        export NODEFILE=`generate_pbs_nodefile`
-        cat $NODEFILE | uniq > machine.file.$JOBID
-        echo -e "\nNodes allocated:\n================"
-        echo `cat machine.file.$JOBID | sed -e 's/\..*$//g'`
-fi
+# if [ "$SLURM_JOB_NODELIST" ]; then
+#         #! Create a machine file:
+#         export NODEFILE=`generate_pbs_nodefile`
+#         cat $NODEFILE | uniq > machine.file.$JOBID
+#         echo -e "\nNodes allocated:\n================"
+#         echo `cat machine.file.$JOBID | sed -e 's/\..*$//g'`
+# fi
 
-echo -e "\nnumtasks=$numtasks, numnodes=$numnodes, mpi_tasks_per_node=$mpi_tasks_per_node (OMP_NUM_THREADS=$OMP_NUM_THREADS)"
+# echo -e "\nnumtasks=$numtasks, numnodes=$numnodes, mpi_tasks_per_node=$mpi_tasks_per_node (OMP_NUM_THREADS=$OMP_NUM_THREADS)"
 
-echo -e "\nExecuting command:\n==================\n$CMD\n"
+# echo -e "\nExecuting command:\n==================\n$CMD\n"
 
-eval $CMD 
+# eval $CMD 
