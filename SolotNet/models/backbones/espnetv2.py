@@ -397,21 +397,45 @@ class EESPNet(nn.Module):
         # self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
         # used for deconv layers
-        # self.deconv_layers = self._make_deconv_layer(
-        #     3,
-        #     [256, 128, 64],
-        #     [4, 4, 4],
-        # )
+        self.deconv_layers = self._make_deconv_layer(
+            4,
+            [512, 256, 128, 64],
+            [4, 4, 4, 4],
+        )
 
         self.heads = heads
+        # for head in self.heads:
+        #     classes = self.heads[head]
+        #     if head_conv > 0:
+        #         fc = nn.Sequential(
+        #           nn.Conv2d(config[4], config[4],
+        #             kernel_size=3, padding=1, bias=True, groups=config[4]),
+        #           nn.ReLU(inplace=True),
+        #           nn.Conv2d(config[4], classes, 
+        #             kernel_size=1, stride=1, 
+        #             padding=0, bias=True))
+        #         if 'hm' in head:
+        #             fc[-1].bias.data.fill_(-2.19)
+        #         else:
+        #             fill_fc_weights(fc)
+        #     else:
+        #         fc = nn.Conv2d(64, classes, 
+        #           kernel_size=1, stride=1, 
+        #           padding=0, bias=True)
+        #         if 'hm' in head:
+        #             fc.bias.data.fill_(-2.19)
+        #         else:
+        #             fill_fc_weights(fc)
+        #     self.__setattr__(head, fc)
+
         for head in self.heads:
             classes = self.heads[head]
             if head_conv > 0:
                 fc = nn.Sequential(
-                  nn.Conv2d(config[4], config[4],
-                    kernel_size=3, padding=1, bias=True, groups=config[4]),
+                  nn.Conv2d(64, head_conv,
+                    kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
-                  nn.Conv2d(config[4], classes, 
+                  nn.Conv2d(head_conv, classes, 
                     kernel_size=1, stride=1, 
                     padding=0, bias=True))
                 if 'hm' in head:
@@ -543,8 +567,8 @@ class EESPNet(nn.Module):
         # output_1x1 = output_g.view(output_g.size(0), -1)
 
         # deconv layers here 
-        # x = self.deconv_layers(out_l5)
-        x = out_l5
+        x = self.deconv_layers(out_l5)
+        # x = out_l5
 
         ret = {} 
         for head in self.heads:
@@ -561,5 +585,7 @@ def get_espv2_net(num_layers, heads, head_conv=256):
                  pretrained=False,
                  head_conv=head_conv,
                  s=1.0)
+
+    print(model)
     
     return model
