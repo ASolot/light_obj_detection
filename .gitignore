@@ -1,1 +1,9 @@
 environment/
+thesisenv/
+thesisenv
+*__pycache__*
+/exp
+/data
+/.vscode
+*.jpg
+*.png

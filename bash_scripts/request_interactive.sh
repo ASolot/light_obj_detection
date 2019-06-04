@@ -1,0 +1,1 @@
+sintr -A MASCOLO-SL3-GPU -p pascal --gres=gpu:4 --nodes=1 -t 1:0:0 --qos=INTR
