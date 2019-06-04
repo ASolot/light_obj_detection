@@ -465,7 +465,7 @@ class EESPNet(nn.Module):
 
         ret = {} 
         for head in self.heads:
-            ret[head] = self.__getattr__(head)(x)
+            ret[head] = self.__getattr__(head)(out_l5)
         return [ret]
 
 def get_espv2_net(num_layers, heads, head_conv=256):
