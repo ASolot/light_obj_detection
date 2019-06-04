@@ -34,7 +34,6 @@ class opts(object):
                                   'Reloaded the optimizer parameter and '
                                   'set load_model to model_last.pth '
                                   'in the exp dir if load_model is empty.') 
-
     # system
     self.parser.add_argument('--gpus', default='0', 
                              help='-1 for CPU, use comma for multiple gpus')
@@ -68,7 +67,7 @@ class opts(object):
     self.parser.add_argument('--arch', default='dla_34', 
                              help='model architecture. Currently tested'
                                   'res_18 | res_101 | resdcn_18 | resdcn_101 |'
-                                  'dlav0_34 | dla_34 | hourglass | darknet')
+                                  'dlav0_34 | dla_34 | hourglass | esp')
     # TODO: head conv for
     self.parser.add_argument('--head_conv', type=int, default=-1,
                              help='conv layer channels for output head'
