@@ -356,6 +356,8 @@ class EESPNet(nn.Module):
         config_inp_reinf = 3
 
         self.inplanes = 64
+        self.deconv_with_bias = False
+        
         self.input_reinforcement = True # True for the shortcut connection with input
 
         assert len(K) == len(r_lim), 'Length of branching factor array and receptive field array should be the same.'
