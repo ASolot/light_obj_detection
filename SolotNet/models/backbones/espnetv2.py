@@ -321,8 +321,7 @@ class EESPNet(nn.Module):
     '''
 
     # def __init__(self, classes=1000, s=1):
-    def __init__(self, heads, pretrained, down_ratio, final_kernel,
-                 last_level, head_conv, out_channel=0):
+    def __init__(self, heads, pretrained, head_conv, s=1):
 
         super().__init__()
         reps = [0, 3, 7, 3]  # how many times EESP blocks should be repeated at each spatial level.
@@ -477,8 +476,6 @@ def get_espv2_net(num_layers, heads, head_conv=256):
     # head convolution size 
     model = EESPNet(heads,
                  pretrained=False,
-                 final_kernel=1,
-                 last_level=5,
                  head_conv=head_conv)
     
     return model
