@@ -393,15 +393,15 @@ class EESPNet(nn.Module):
             self.level5.append(EESP(config[4], config[4], stride=1, k=K[4], r_lim=r_lim[4]))
 
         # expand the feature maps using depth-wise convolution followed by group point-wise convolution
-        # self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
-        # self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
+        self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
+        self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
         # used for deconv layers
-        self.deconv_layers = self._make_deconv_layer(
-            3,
-            [256, 128, 64],
-            [4, 4, 4],
-        )
+        # self.deconv_layers = self._make_deconv_layer(
+        #     3,
+        #     [256, 128, 64],
+        #     [4, 4, 4],
+        # )
 
         self.heads = heads
         for head in self.heads:
@@ -411,9 +411,9 @@ class EESPNet(nn.Module):
                   nn.Conv2d(config[4], config[4],
                     kernel_size=3, padding=1, bias=True, groups=config[4]),
                   nn.ReLU(inplace=True),
-                  nn.Conv2d(config[4], classes, 
+                  nn.Conv2d(config[4], config[5], 
                     kernel_size=1, stride=1, 
-                    padding=0, bias=True))
+                    padding=0, bias=True, groups=K[4]))
                 if 'hm' in head:
                     fc[-1].bias.data.fill_(-2.19)
                 else:
