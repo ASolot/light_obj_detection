@@ -366,7 +366,7 @@ class EESPNet(nn.Module):
         global config_inp_reinf
         config_inp_reinf = 3
 
-        self.inplanes = 64
+        self.inplanes = 1024
         self.deconv_with_bias = False
 
         self.input_reinforcement = True # True for the shortcut connection with input
@@ -398,9 +398,9 @@ class EESPNet(nn.Module):
 
         # used for deconv layers
         self.deconv_layers = self._make_deconv_layer(
-            4,
-            [512, 256, 128, 64],
-            [4, 4, 4, 4],
+            3,
+            [256, 128, 64],
+            [4, 4, 4],
         )
 
         self.heads = heads
