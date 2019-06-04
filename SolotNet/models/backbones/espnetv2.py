@@ -396,11 +396,11 @@ class EESPNet(nn.Module):
         # self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
         # self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
-        # self.deconv_layers = self._make_deconv_layer(
-        #     3,
-        #     [256, 128, 64],
-        #     [4, 4, 4],
-        # )
+        self.deconv_layers = self._make_deconv_layer(
+            3,
+            [256, 128, 64],
+            [4, 4, 4],
+        )
 
         # TODO: support other heads
         self.heads = heads
