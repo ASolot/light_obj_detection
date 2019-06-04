@@ -344,7 +344,7 @@ class EESPNet(nn.Module):
         r_lim = [13, 11, 9, 7, 5]  # receptive field at each spatial level
         K = [4]*len(r_lim) # No. of parallel branches at different levels
 
-        base = 16 #base configuration
+        base = 64 #base configuration
         config_len = 5
         config = [base] * config_len
         base_s = 0
