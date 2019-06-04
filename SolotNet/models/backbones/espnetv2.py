@@ -15,6 +15,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 import math
 
+from .DCNv2.dcn_v2 import DCN
+BN_MOMENTUM = 0.1
+
 class CBR(nn.Module):
     '''
     This class defines the convolution layer with batch normalization and PReLU activation
@@ -431,7 +434,7 @@ class EESPNet(nn.Module):
                 nn.init.normal_(m.weight, std=0.001)
                 if m.bias is not None:
                     nn.init.constant_(m.bias, 0)
-                    
+
         # init of deconv layers
         for name, m in self.deconv_layers.named_modules():
             if isinstance(m, nn.BatchNorm2d):
