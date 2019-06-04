@@ -393,7 +393,7 @@ class EESPNet(nn.Module):
             self.level5.append(EESP(config[4], config[4], stride=1, k=K[4], r_lim=r_lim[4]))
 
         # expand the feature maps using depth-wise convolution followed by group point-wise convolution
-        self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
+        # self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
         # self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
         self.deconv_layers = self._make_deconv_layer(
