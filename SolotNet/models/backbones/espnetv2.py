@@ -344,7 +344,7 @@ class EESPNet(nn.Module):
         r_lim = [13, 11, 9, 7, 5]  # receptive field at each spatial level
         K = [4]*len(r_lim) # No. of parallel branches at different levels
 
-        base = 32 #base configuration
+        base = 16 #base configuration
         config_len = 5
         config = [base] * config_len
         base_s = 0
@@ -396,19 +396,18 @@ class EESPNet(nn.Module):
         # self.level5.append(CBR(config[4], config[4], 3, 1, groups=config[4]))
         # self.level5.append(CBR(config[4], config[5], 1, 1, groups=K[4]))
 
+        # used for deconv layers
         self.deconv_layers = self._make_deconv_layer(
             3,
             [256, 128, 64],
             [4, 4, 4],
         )
 
-        # TODO: support other heads
-        self.heads = heads
         for head in self.heads:
             classes = self.heads[head]
             if head_conv > 0:
                 fc = nn.Sequential(
-                  nn.Conv2d(config[4], head_conv,
+                  nn.Conv2d(64, head_conv,
                     kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
                   nn.Conv2d(head_conv, classes, 
@@ -429,7 +428,7 @@ class EESPNet(nn.Module):
             self.__setattr__(head, fc)
 
         # init weights 
-        self.init_params()
+        # self.init_params()
 
     def init_params(self):
         '''
@@ -543,8 +542,8 @@ class EESPNet(nn.Module):
         # output_1x1 = output_g.view(output_g.size(0), -1)
 
         # deconv layers here 
-        # x = self.deconv_layers(out_l5)
-        x = out_l5
+        x = self.deconv_layers(out_l5)
+        # x = out_l5
 
         ret = {} 
         for head in self.heads:
