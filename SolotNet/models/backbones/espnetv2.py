@@ -543,8 +543,8 @@ class EESPNet(nn.Module):
         # output_1x1 = output_g.view(output_g.size(0), -1)
 
         # deconv layers here 
-        x = self.deconv_layers(out_l5)
-        # x = out_l5
+        # x = self.deconv_layers(out_l5)
+        x = out_l5
 
         ret = {} 
         for head in self.heads:
