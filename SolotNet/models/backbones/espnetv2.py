@@ -380,11 +380,11 @@ class EESPNet(nn.Module):
 
         # TODO: support other heads
         self.heads = heads
-        for head in self.heads: 
+        for head in self.heads:
             classes = self.heads[head]
             if head_conv > 0:
                 fc = nn.Sequential(
-                  nn.Conv2d(channels[self.first_level], head_conv,
+                  nn.Conv2d(64, head_conv,
                     kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
                   nn.Conv2d(head_conv, classes, 
@@ -395,14 +395,14 @@ class EESPNet(nn.Module):
                 else:
                     fill_fc_weights(fc)
             else:
-                fc = nn.Conv2d(channels[self.first_level], classes, 
+                fc = nn.Conv2d(64, classes, 
                   kernel_size=1, stride=1, 
                   padding=0, bias=True)
                 if 'hm' in head:
                     fc.bias.data.fill_(-2.19)
                 else:
                     fill_fc_weights(fc)
-            self.__setattr__(head, fc) 
+            self.__setattr__(head, fc)
 
 
         # self.classifier = nn.Linear(config[5], classes)
@@ -476,6 +476,7 @@ def get_espv2_net(num_layers, heads, head_conv=256):
     # head convolution size 
     model = EESPNet(heads,
                  pretrained=False,
-                 head_conv=head_conv)
+                 head_conv=head_conv,
+                 s=1.0)
     
     return model
