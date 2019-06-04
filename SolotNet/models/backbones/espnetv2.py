@@ -432,7 +432,7 @@ class EESPNet(nn.Module):
             classes = self.heads[head]
             if head_conv > 0:
                 fc = nn.Sequential(
-                  nn.Conv2d(1024, head_conv,
+                  nn.Conv2d(64, head_conv,
                     kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
                   nn.Conv2d(head_conv, classes, 
@@ -575,7 +575,7 @@ class EESPNet(nn.Module):
             ret[head] = self.__getattr__(head)(x)
         return [ret]
 
-def get_espv2_net(num_layers, heads, head_conv=256):
+def get_espv2_net(num_layers, heads, head_conv=1024):
 
     # input = torch.Tensor(1, 3, 224, 224).cuda()
     # model = EESPNet(classes=1000, s=1.0)
