@@ -10,7 +10,7 @@
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J ams288-esp1024
+#SBATCH -J ams288-esp512
 #! Which project should be charged (NB Wilkes2 projects end in '-GPU'):
 #SBATCH -A MASCOLO-SL3-GPU
 #! How many whole nodes should be allocated?
@@ -22,7 +22,7 @@
 #! Note that the job submission script will enforce no more than 3 cpus per GPU.
 #SBATCH --gres=gpu:4
 #! How much wallclock time will be required?
-#SBATCH --time=01:00:00
+#SBATCH --time=02:00:00
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=FAIL
 #! Uncomment this to prevent the job from being requeued (e.g. if
@@ -73,4 +73,4 @@ source activate thesisenvcl
 
 cd "$HOME/MThesis/repos/mine/light_obj_detection/SolotNet"
 
-python train.py ctdet --exp_id visdrone_esp_c_1024 --batch_size 16 --arch espnetv2 --dataset visdrone --input_res 1024 --num_epochs 25 --lr_step 45,60 --gpus 0,1,2,3 --num_workers 32
+python train.py ctdet --exp_id visdrone_esp_c_512 --batch_size 32 --arch espnetv2 --dataset visdrone --input_res 512 --num_epochs 50 --lr_step 45,60 --gpus 0,1,2,3 --num_workers 32 --resume
