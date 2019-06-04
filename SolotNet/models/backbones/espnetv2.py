@@ -318,6 +318,17 @@ def fill_fc_weights(layers):
             if m.bias is not None:
                 nn.init.constant_(m.bias, 0)
 
+def fill_up_weights(up):
+    w = up.weight.data
+    f = math.ceil(w.size(2) / 2)
+    c = (2 * f - 1 - f % 2) / (2. * f)
+    for i in range(w.size(2)):
+        for j in range(w.size(3)):
+            w[0, 0, i, j] = \
+                (1 - math.fabs(i / f - c)) * (1 - math.fabs(j / f - c))
+    for c in range(1, w.size(0)):
+        w[c, 0, :, :] = w[0, 0, :, :] 
+
 class EESPNet(nn.Module):
     '''
     This class defines the ESPNetv2 architecture
@@ -357,7 +368,7 @@ class EESPNet(nn.Module):
 
         self.inplanes = 64
         self.deconv_with_bias = False
-        
+
         self.input_reinforcement = True # True for the shortcut connection with input
 
         assert len(K) == len(r_lim), 'Length of branching factor array and receptive field array should be the same.'
