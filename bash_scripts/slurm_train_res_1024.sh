@@ -4,13 +4,15 @@
 #! Last updated: Mon 13 Nov 12:06:57 GMT 2017
 #!
 
+#! RESNET 18
+
 #!#############################################################
 #!#### Modify the options in this section as appropriate ######
 #!#############################################################
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J ams288-dla-1024
+#SBATCH -J ams288-res-1024
 #! Which project should be charged (NB Wilkes2 projects end in '-GPU'):
 #SBATCH -A MASCOLO-SL3-GPU
 #! How many whole nodes should be allocated?
@@ -22,7 +24,7 @@
 #! Note that the job submission script will enforce no more than 3 cpus per GPU.
 #SBATCH --gres=gpu:4
 #! How much wallclock time will be required?
-#SBATCH --time=04:00:00
+#SBATCH --time=02:00:00
 #! What types of email messages do you wish to receive?
 #SBATCH --mail-type=FAIL
 #! Uncomment this to prevent the job from being requeued (e.g. if
@@ -73,5 +75,4 @@ source activate thesisenvcl
 
 cd "$HOME/MThesis/repos/mine/light_obj_detection/SolotNet"
 
-python train.py ctdet --exp_id visdrone_dla_c_1024 --batch_size 32 --dataset visdrone --input_res 1024 --num_epochs 100 --lr_step 45,60 --gpus 0,1,2,3 --num_workers 32 --resume
-
+python train.py ctdet --exp_id visdrone_res_1024 --batch_size 32  --arch resdcn_18 --dataset visdrone --input_res 1024 --num_epochs 100 --lr 5e-4 --lr_step 45,60 --gpus 0,1,2,3 --num_workers 32 --resume

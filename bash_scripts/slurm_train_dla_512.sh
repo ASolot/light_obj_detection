@@ -10,7 +10,7 @@
 
 #! sbatch directives begin here ###############################
 #! Name of the job:
-#SBATCH -J ams288-dla-1024
+#SBATCH -J ams288-dla-512
 #! Which project should be charged (NB Wilkes2 projects end in '-GPU'):
 #SBATCH -A MASCOLO-SL3-GPU
 #! How many whole nodes should be allocated?
@@ -73,5 +73,4 @@ source activate thesisenvcl
 
 cd "$HOME/MThesis/repos/mine/light_obj_detection/SolotNet"
 
-python train.py ctdet --exp_id visdrone_dla_c_1024 --batch_size 32 --dataset visdrone --input_res 1024 --num_epochs 100 --lr_step 45,60 --gpus 0,1,2,3 --num_workers 32 --resume
-
+python train.py ctdet --exp_id visdrone_dla_c_512 --batch_size 32 --dataset visdrone --input_res 512 --num_epochs 100 --lr_step 45,60,90 --gpus 0,1,2,3 --num_workers 32 --resume
