@@ -403,6 +403,7 @@ class EESPNet(nn.Module):
             [4, 4, 4],
         )
 
+        self.heads = heads
         for head in self.heads:
             classes = self.heads[head]
             if head_conv > 0:
