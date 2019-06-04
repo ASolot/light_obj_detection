@@ -409,11 +409,11 @@ class EESPNet(nn.Module):
             if head_conv > 0:
                 fc = nn.Sequential(
                   nn.Conv2d(config[4], head_conv,
-                    kernel_size=3, padding=1, bias=True, groups=config[4]),
+                    kernel_size=3, padding=1, bias=True),
                   nn.ReLU(inplace=True),
                   nn.Conv2d(head_conv, classes, 
                     kernel_size=1, stride=1, 
-                    padding=0, bias=True, groups=K[4]))
+                    padding=0, bias=True))
                 if 'hm' in head:
                     fc[-1].bias.data.fill_(-2.19)
                 else:
