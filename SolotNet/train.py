@@ -15,6 +15,7 @@ from logger import Logger
 from dataset.dataset_factory import get_dataset
 from trainers.train_factory import train_factory
 
+from thop import profile
 
 def main(opt):
   torch.manual_seed(opt.seed)
@@ -59,17 +60,19 @@ def main(opt):
     print('Exporting onnx model')
 
     # TODO: adapt the input size to the onnx 
-    width   = val_loader.dataset.default_resolution[0]
-    height  = val_loader.dataset.default_resolution[0]
+    width   = opt.input_res
+    height  = opt.input_res
 
     # create a dummy input that would be used to export the model
-    dummy_input = torch.randn(10, 3, width, height, device='cuda')
+    #dummy_input = torch.randn(10, 3, width, height, device='cuda')
 
     # this method does not support variable input sizes 
-    torch.onnx.export(model, dummy_input, 
-                      os.path.join(opt.save_dir, 'model.onnx'), 
-                      verbose=True)
+    #torch.onnx.export(model, dummy_input, 
+    #                  os.path.join(opt.save_dir, 'model.onnx'), 
+    #                  verbose=True)
 
+    flops, params = profile(model, input_size=(1,3,width, height), device='cuda')
+    print(width, height, flops, params)
     print('Model exported. Done!')
     return
 
