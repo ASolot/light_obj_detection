@@ -1,6 +1,8 @@
 
 cd $HOME/MThesis/repos/mine/light_obj_detection/SolotNet
 
+alias python3=python3.5
+
 echo "Start DLA_C_1024\n"
 echo "Infer: 1024\n"
 python3 evaluate.py ctdet --exp_id visdrone_dla_c_1024 --dataset visdrone --input_res 1024 --resume
