@@ -2,6 +2,7 @@
 cd $HOME/MThesis/repos/mine/light_obj_detection/SolotNet
 
 alias python3=python3.5
+PYTHONPATH="" 
 
 echo "Start DLA_C_1024\n"
 echo "Infer: 1024\n"
