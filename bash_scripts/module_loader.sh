@@ -11,4 +11,6 @@ module load cuda/10.0
 module load cuda/9.0 intel/mkl/2017.4 
 module load cudnn/7.3_cuda-9.0
 
+source activate thesisenvcl
+cd "$HOME/MThesis/repos/mine/light_obj_detection/SolotNet"
 # tb-nightly future 
