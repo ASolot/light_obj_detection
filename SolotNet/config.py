@@ -44,11 +44,6 @@ class opts(object):
     self.parser.add_argument('--seed', type=int, default=317, 
                              help='random seed') # from CornerNet
     
-    # self.parser.add_argument('--dist-url', default='tcp://127.0.0.1:9999', type=str, help='distributed training init method')
-    # self.parser.add_argument('--rank', default=0, type=int, help='distributed training node rank')
-    # self.parser.add_argument('--world-size', default=1, type=int, help='number of nodes for distributed training')
-    # self.parser.add_argument('--backend', default='nccl', type=str, help='distributed backend')
-
     # log
     self.parser.add_argument('--print_iter', type=int, default=0, 
                              help='disable progress bar and print to screen.')
@@ -206,9 +201,6 @@ class opts(object):
     opt.fix_res = not opt.keep_res
     print('Fix size testing.' if opt.fix_res else 'Keep resolution testing.')
     opt.reg_offset = not opt.not_reg_offset
-    # opt.reg_bbox = not opt.not_reg_bbox
-    # opt.hm_hp = not opt.not_hm_hp
-    # opt.reg_hp_offset = (not opt.not_reg_hp_offset) and opt.hm_hp
 
     if opt.head_conv == -1: # init default head_conv
       opt.head_conv = 256 if 'dla' in opt.arch else 64
@@ -263,39 +255,13 @@ class opts(object):
     opt.input_res = max(opt.input_h, opt.input_w)
     opt.output_res = max(opt.output_h, opt.output_w)
     
-    if opt.task == 'exdet':
-      # assert opt.dataset in ['coco']
-      num_hm = 1 if opt.agnostic_ex else opt.num_classes
-      opt.heads = {'hm_t': num_hm, 'hm_l': num_hm, 
-                   'hm_b': num_hm, 'hm_r': num_hm,
-                   'hm_c': opt.num_classes}
-      if opt.reg_offset:
-        opt.heads.update({'reg_t': 2, 'reg_l': 2, 'reg_b': 2, 'reg_r': 2})
-    # elif opt.task == 'ddd':
-    #   # assert opt.dataset in ['gta', 'kitti', 'viper']
-    #   opt.heads = {'hm': opt.num_classes, 'dep': 1, 'rot': 8, 'dim': 3}
-    #   if opt.reg_bbox:
-    #     opt.heads.update(
-    #       {'wh': 2})
-    #   if opt.reg_offset:
-    #     opt.heads.update({'reg': 2})
-    elif opt.task == 'ctdet':
+    if opt.task == 'ctdet':
       assert opt.dataset in ['visdrone', 'coco']
       opt.heads = {'hm': opt.num_classes,
                    'wh': 2 if not opt.cat_spec_wh else 2 * opt.num_classes}
       if opt.reg_offset:
         opt.heads.update({'reg': 2})
-    # elif opt.task == 'multi_pose':
-    #   # assert opt.dataset in ['coco_hp']
-    #   opt.flip_idx = dataset.flip_idx
-    #   opt.heads = {'hm': opt.num_classes, 'wh': 2, 'hps': 34}
-    #   if opt.reg_offset:
-    #     opt.heads.update({'reg': 2})
-    #   if opt.hm_hp:
-    #     opt.heads.update({'hm_hp': 17})
-    #   if opt.reg_hp_offset:
-    #     opt.heads.update({'hp_offset': 2})
-    
+
     elif opt.task == 'yolo':
       assert opt.dataset in ['visdrone', 'coco']
       

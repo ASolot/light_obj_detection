@@ -53,11 +53,6 @@ def prefetch_test(opt):
   split = 'test'
   dataset = Dataset(opt, split)
   detector = Detector(opt)
-
-  # if opt.export_onnx: 
-
-  # else: 
-  
   data_loader = torch.utils.data.DataLoader(
     PrefetchDataset(opt, dataset, detector.pre_process), 
     batch_size=1, shuffle=False, num_workers=1, pin_memory=True)

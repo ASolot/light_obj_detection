@@ -585,7 +585,5 @@ def get_espv2_net(num_layers, heads, head_conv=1024):
                  pretrained=False,
                  head_conv=head_conv,
                  s=1.0)
-
-    print(model)
     
     return model
