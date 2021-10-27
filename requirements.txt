@@ -1,4 +1,4 @@
-    dask==1.2.2
+    dask==2021.10.0
     flopth==0.0.1
     mock==2.0.0
     msgpack==0.6.1
